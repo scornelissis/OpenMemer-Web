@@ -39,28 +39,34 @@ function handleImage() {
         // draw the image on the canvas when it loads
         console.log("Image loaded!");
         ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
-        // calculate scaling to fit image within canvas
-        const scale = canvas.width / image.width;
-        const scaledHeight = image.height * scale;
+        const displayWidth = canvas.clientWidth; // get the display width of the canvas
+        const scale = displayWidth / image.width; // calculate scale to fit width
+        canvas.width = displayWidth; // set canvas width
+        canvas.height = image.height * scale; // set canvas height to maintain aspect ratio
         const x = 0; // x position to draw
         let y = 0; // y position to draw
-        canvas.height = scaledHeight; // adjust canvas height to maintain aspect ratio
-
-        ctx.drawImage(image, x, y, image.width * scale, scaledHeight); // draw the image
+        ctx.drawImage(image, x, y, canvas.width, canvas.height); // draw the image
 
 
-        /*
-        Textbox setup will go here later
-        */
-        const text = "TOP TEXT"; // placeholder text
-        const fontSize = canvas.width * 0.08; // font size
-        ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`; // set font
-        ctx.fillStyle = 'white'; // text color
-        ctx.strokeStyle = 'black'; // outline color
-        ctx.lineWidth = fontSize * 0.1; // outline width
-        ctx.textAlign = 'center'; // center align text
-
-        ctx.fillText(text, canvas.width / 2, fontSize); // draw filled text
-        ctx.strokeText(text, canvas.width / 2, fontSize); // draw text outline
+        
+        drawMeme(); // initial draw call
     };
+}
+
+function drawMeme() {
+    // Future function to redraw meme with textboxes
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
+    const scale = canvas.width / image.width;
+    const scaledHeight = image.height * scale;
+    ctx.drawImage(image, 0, 0, image.width * scale, scaledHeight); // redraw the image
+    const fontSize = canvas.width * 0.08; // font size
+    ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`; // set font
+    ctx.fillStyle = 'white'; // text color
+    ctx.strokeStyle = 'black'; // outline color
+    ctx.lineWidth = fontSize * 0.1; // outline width
+    ctx.textAlign = 'center'; // center align text
+    const text = topText.value;
+
+    ctx.fillText(text, canvas.width / 2, fontSize); // draw filled text
+    ctx.strokeText(text, canvas.width / 2, fontSize); // draw text outline
 }
