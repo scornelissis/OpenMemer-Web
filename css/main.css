@@ -71,3 +71,45 @@ body{
     font-family: liberation sans, sans-serif;
     cursor: pointer;
 }
+.horizGroupImpact {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+#advBtn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-family: liberation sans, sans-serif;
+    cursor: pointer;
+}
+#advancedSettingsHandler.hidden {
+    display: none;
+    flex-direction: column;
+}
+#advancedSettingsHandler.visible {
+    display: flex;
+}
+.advGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.advLabel {
+    color: white;
+    font-family: liberation sans, sans-serif;
+}
+.advInput {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-family: liberation sans, sans-serif;
+    cursor: pointer;
+}

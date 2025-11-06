@@ -16,12 +16,25 @@
     <h1 class="logo">OpenMemer</h1>
     <div id="canvasHolder">
         <canvas id="memeEditor" width="800" height="600"></canvas>
-        <input type="file" id="imageLoader" name="imageLoader" accept="image/*" hidden/>
+        <input type="file" id="imageLoader" name="imageLoader" accept="image/*" hidden />
     </div>
     <div class="controls">
-        <input type="text" class="textInput" id="topText" placeholder="Top Text">
-        <input type="text" class="textInput" id="bottomText" placeholder="Bottom Text">
-        <button id="exportBtn">Export Meme</button>
+        <div class="horizGroupImpact">
+            <input type="text" class="textInput" id="topText" placeholder="top text">
+            <input type="text" class="textInput" id="bottomText" placeholder="bottom text">
+            <button id="advBtn">advanced settings</button>
+        </div>
+        <div id="advancedSettingsHandler" class="hidden">
+            <div class="advGroup">
+                <label class="advLabel" for="fontSize">Font Size:</label>
+                <input class="advInput" type="number" id="fontSize" value="8" min="0" max="100">
+            </div>
+            <div class="advGroup">
+                <label class="advLabel" for="outlineWidth">Outline Width:</label>
+                <input class="advInput" type="number" id="outlineWidth" value="2" min="0" max="10">
+            </div>
+        </div>
+        <button id="exportBtn">export</button>
     </div>
 
 </body>

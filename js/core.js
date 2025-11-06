@@ -80,11 +80,14 @@ function drawBottomText(text, fontSize) {
 
 function drawMeme() {
     drawBaseImage();
-    const fontSize = canvas.width * 0.08;
+    const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
+    const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
+    const fontSize = canvas.width * fontSizeValue;
+    
 
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = fontSize * 0.02;
+    ctx.lineWidth = fontSize * strokeWidthValue;
     ctx.textAlign = 'center';
     ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
     ctx.textAlign = 'center';
