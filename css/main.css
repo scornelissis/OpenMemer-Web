@@ -60,6 +60,7 @@ body{
     color: white;
     font-family: liberation sans, sans-serif;
     box-sizing: border-box;
+    text-align: center;
 }
 #exportBtn{
     padding: 10px 20px;
