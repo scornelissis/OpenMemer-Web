@@ -165,3 +165,22 @@ button:active {
     font-family: 'Libre Franklin', sans-serif;
     cursor: pointer;
 }
+#mobilePlaceholder {
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    font-family: sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+@media (max-width: 600px) {
+    #canvasHolder,
+    .controls {
+        display: none;
+    }
+    #mobilePlaceholder {
+        display: block;
+    }
+}
