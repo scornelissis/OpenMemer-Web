@@ -134,7 +134,6 @@ function wrapText(ctx, text, maxWidth) { // helper function to wrap text
         }
     }
     lines.push(line.trim());
-    console.log("wrapText result:", lines);
     return lines;
 
 }
