@@ -52,11 +52,17 @@ function drawBaseImage() {
         if (!image || !image.complete) return; // ensure image is loaded
         // First, we clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Then, we calculate the scale to fit the image within the canvas width
+        
+        // Get device pixel ratio for high DPI screens
+        const dpr = window.devicePixelRatio || 1;
 
+        // Then, we calculate the scale to fit the image within the canvas width
         const displayWidth = canvas.clientWidth; // get the display width of the canvas
+        
         // Next, we adjust the canvas height to maintain the aspect ratio
-        canvas.width = displayWidth; // set canvas width
+        // Multiply by dpr to set internal resolution higher than display size
+        canvas.width = displayWidth * dpr; 
+        
         const scale = canvas.width / image.width; // calculate scale factor. we do this by dividing canvas width by image width. this gives us a scale factor to maintain aspect ratio.
         canvas.height = image.height * scale; // set canvas height to maintain aspect ratio
 
@@ -73,7 +79,8 @@ function drawTopText(text, fontSize) {
     const maxWidth = canvas.width * 0.9; // 90% of canvas width
     const lines = wrapText(ctx, text, maxWidth);
     const x = canvas.width / 2;
-    let y = fontSize + 10;
+    // Use relative padding instead of fixed pixels to handle scaling
+    let y = fontSize + (fontSize * 0.2);
 
     lines.forEach(line => { // draw each line
         ctx.fillText(line, x, y);
@@ -86,7 +93,7 @@ function drawBottomText(text, fontSize) {
     const maxWidth = canvas.width * 0.9; // 90% of canvas width
     const lines = wrapText(ctx, text, maxWidth);
     const x = canvas.width / 2;
-    let y = canvas.height - fontSize * 0.3;
+    let y = canvas.height - (fontSize * 0.3);
     for (let i = lines.length - 1; i >= 0; i--) { // draw lines from bottom to top
 
         ctx.fillText(lines[i], x, y);
@@ -137,3 +144,10 @@ function wrapText(ctx, text, maxWidth) { // helper function to wrap text
     return lines;
 
 }
+
+// Ensure canvas stays sharp on resize/orientation change
+window.addEventListener('resize', () => {
+    if (hasImageBeenLoaded) {
+        drawMeme();
+    }
+});
