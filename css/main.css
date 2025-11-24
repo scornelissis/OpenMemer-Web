@@ -313,4 +313,31 @@ button:active {
     #mobilePlaceholder {
         display: none;
     }
+
+    /* Keyboard open state */
+    body.keyboard-open #exportBtn,
+    body.keyboard-open #advBtn,
+    body.keyboard-open #advancedSettingsHandler {
+        display: none !important;
+    }
+
+    body.keyboard-open .controls {
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        bottom: 0;
+        height: auto;
+        padding: 10px;
+    }
+
+    body.keyboard-open .textInput {
+        display: none;
+    }
+
+    body.keyboard-open .textInput.active-input {
+        display: block;
+        width: 100%;
+        border: 2px solid white;
+        background: black;
+    }
 }

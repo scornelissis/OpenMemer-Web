@@ -9,6 +9,18 @@ outlineWidthInput.addEventListener('change', drawMeme); // redraw meme on outlin
 topText.addEventListener('input', drawMeme);
 bottomText.addEventListener('input', drawMeme);
 
+// Mobile keyboard handling
+const inputs = [topText, bottomText];
+inputs.forEach(input => {
+    input.addEventListener('focus', () => {
+        document.body.classList.add('keyboard-open');
+        input.classList.add('active-input');
+    });
+    input.addEventListener('blur', () => {
+        document.body.classList.remove('keyboard-open');
+        input.classList.remove('active-input');
+    });
+});
 
 canvas.addEventListener('click', () => { // if user clicks the canvas
     fileInput.click(); // trigger file input click on canvas click
