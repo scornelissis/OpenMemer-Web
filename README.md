@@ -25,12 +25,12 @@ This is stuff I have to do in order to get the minimum viable product done.
 ## Stretch Goals
 I want OpenMemer to become the ultimate shitposting suite.
 For that to be accomplished, I want to add the following:
-# Audio support
+### Audio support
 - [ ] Low quality sound (low bitrate converter)
 - [ ] "Earrape" audio (distortion/amplification)
 - [ ] Regular pitch shifts
 - [ ] "Griffin method" (Capcut's "Beat" feature, where you can pitch shift with keyframes. Probably won't be able to implement this)
-# Image editing
+### Image editing
 - [ ] Low quality/bitcrusher
 - [ ] Deepfry
 - [ ] Filters?
