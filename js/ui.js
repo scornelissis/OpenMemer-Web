@@ -65,3 +65,25 @@ document.querySelectorAll('.pill-btn').forEach(btn => {
         input.dispatchEvent(new Event('change'));
     });
 });
+
+// Handle Android "Back" button closing keyboard without blurring
+if (window.visualViewport) {
+    let viewportBaseHeight = window.visualViewport.height;
+    
+    window.visualViewport.addEventListener('resize', () => {
+        // Update base height if the new height is larger (e.g. keyboard closed or browser bars hid)
+        if (window.visualViewport.height > viewportBaseHeight) {
+            viewportBaseHeight = window.visualViewport.height;
+        }
+
+        // If the viewport height is close to the base height, the keyboard is likely closed
+        if (Math.abs(window.visualViewport.height - viewportBaseHeight) < 50) {
+            // If we are in keyboard-open mode, force a blur to reset the UI
+            if (document.body.classList.contains('keyboard-open')) {
+                if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+                    document.activeElement.blur();
+                }
+            }
+        }
+    });
+}
