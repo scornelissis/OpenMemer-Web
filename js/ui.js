@@ -96,3 +96,94 @@ if (window.visualViewport) {
         }
     });
 }
+
+// Changelog Data
+let changelogs = [];
+let currentChangelogIndex = 0;
+
+const versionBtn = document.getElementById('versionBtn');
+const modal = document.getElementById('changelogModal');
+const closeBtn = document.querySelector('.close-btn');
+const newerNav = document.getElementById('newerNav');
+const olderNav = document.getElementById('olderNav');
+const newerLabel = document.getElementById('newerVersionLabel');
+const olderLabel = document.getElementById('olderVersionLabel');
+const changelogTitle = document.getElementById('changelogTitle');
+const changelogList = document.getElementById('changelogList');
+
+async function loadChangelogs() {
+    try {
+        const response = await fetch('changelog.json');
+        changelogs = await response.json();
+    } catch (error) {
+        console.error('Failed to load changelogs:', error);
+        changelogs = [{
+            version: "Error",
+            changes: ["Could not load changelogs."]
+        }];
+    }
+}
+
+function updateChangelogUI() {
+    if (changelogs.length === 0) return;
+    
+    const log = changelogs[currentChangelogIndex];
+    
+    // Update Content
+    changelogTitle.textContent = `Update changelog: ${log.version}`;
+    changelogList.innerHTML = log.changes.map(change => `<li>${change}</li>`).join('');
+
+    // Update Navigation
+    // Newer (Left side in design, lower index in array)
+    if (currentChangelogIndex > 0) {
+        newerNav.classList.remove('hidden');
+        newerLabel.textContent = changelogs[currentChangelogIndex - 1].version;
+    } else {
+        newerNav.classList.add('hidden');
+    }
+
+    // Older (Right side in design, higher index in array)
+    if (currentChangelogIndex < changelogs.length - 1) {
+        olderNav.classList.remove('hidden');
+        olderLabel.textContent = changelogs[currentChangelogIndex + 1].version;
+    } else {
+        olderNav.classList.add('hidden');
+    }
+}
+
+// Initialize
+loadChangelogs();
+
+if (versionBtn && modal) {
+    versionBtn.addEventListener('click', () => {
+        currentChangelogIndex = 0; // Always open latest
+        updateChangelogUI();
+        modal.classList.add('show');
+    });
+
+
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+
+    // Navigation Clicks
+    newerNav.addEventListener('click', () => {
+        if (currentChangelogIndex > 0) {
+            currentChangelogIndex--;
+            updateChangelogUI();
+        }
+    });
+
+    olderNav.addEventListener('click', () => {
+        if (currentChangelogIndex < changelogs.length - 1) {
+            currentChangelogIndex++;
+            updateChangelogUI();
+        }
+    });
+}

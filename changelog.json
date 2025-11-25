@@ -1,0 +1,19 @@
+[
+    {
+        "version": "v1.1.0",
+        "changes": [
+            "Mobile UI has been improved.",
+            "Advanced settings have changed from input fields into - and + layout. Custom value typing still supported.",
+            "Added High-DPI support for crisp text on mobile screens.",
+            "Fixed keyboard overlapping issues on mobile devices."
+        ]
+    },
+    {
+        "version": "v1.0.0",
+        "changes": [
+            "Initial Release.",
+            "Basic meme generation functionality.",
+            "Export to PNG support."
+        ]
+    }
+]

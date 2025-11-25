@@ -72,7 +72,33 @@
         </div>
         <button id="exportBtn">export</button>
     </div>
-    <div class="version-indicator">v1.1.0</div>
+        <div class="version-indicator" id="versionBtn">v1.1.0</div>
+
+    <!-- Changelog Modal -->
+    <div id="changelogModal" class="modal">
+        <div class="modal-wrapper">
+            <!-- Newer Version (Left) -->
+            <div class="nav-group left" id="newerNav">
+                <button class="nav-btn">&lt;</button>
+                <span class="nav-label" id="newerVersionLabel">v1.1.2</span>
+            </div>
+
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 id="changelogTitle">Update changelog: v1.1.0</h3>
+                <ul id="changelogList">
+                    <!-- Content injected via JS -->
+                </ul>
+            </div>
+
+            <!-- Older Version (Right) -->
+            <div class="nav-group right" id="olderNav">
+                <button class="nav-btn">&gt;</button>
+                <span class="nav-label" id="olderVersionLabel">v1.0.0</span>
+            </div>
+        </div>
+    </div>
+</body>
     </div>
 </body>
 
