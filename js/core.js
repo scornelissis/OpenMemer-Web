@@ -2,7 +2,7 @@ const canvas = document.getElementById('memeEditor'); // get the canvas element
 const canvasHolder = document.getElementById('canvasHolder'); // ensure ref
 const ctx = canvas.getContext('2d'); // get 2D context for drawing
 let image = new Image(); // create a new image object
-let selectedMemeType = 'impactMeme'; // default meme type
+let currentMemeMode = 'impact'; // default meme mode
 const fileInput = document.getElementById('imageLoader'); // input element
 let hasImageBeenLoaded = false; // flag to track if an image has been loaded
 fileInput.addEventListener('change', handleImage) // listen for file input changes
@@ -75,6 +75,78 @@ function drawBaseImage() {
     }
 }
 
+function drawMeme() {
+    // If no image is loaded, stop
+    if (!hasImageBeenLoaded || !image.complete) return;
+    // The Manager decides who does the work
+    if (currentMemeMode === 'demotivational') {
+        drawDemotivationalMeme();
+    } else {
+        drawImpactMeme();
+    }
+}
+function setMemeMode(mode) {
+    currentMemeMode = mode;
+    if (hasImageBeenLoaded) {
+        drawMeme();
+    }
+}
+
+function drawDemotivationalMeme() {
+    const padding = image.width * 0.1   
+    const border = Math.max(2, image.width * 0.008);
+    const titleSize = image.width * 0.07;
+    const subtitleSize = image.width * 0.05;
+    const dpr = window.devicePixelRatio || 1;
+    const displayWidth = canvasHolder.clientWidth;
+
+    const topTextValue = topText.value.toUpperCase();
+    const bottomTextValue = bottomText.value;
+
+    let textHeight = padding;
+    if (topTextValue) textHeight += titleSize + (padding * 0.5);
+    if (bottomTextValue) textHeight += subtitleSize + (padding * 0.5);
+
+    const logicalWidth = image.width + (padding * 2);
+    const logicalHeight = image.height + textHeight + (padding); 
+    const scaleFactor = (displayWidth * dpr) / logicalWidth;
+    canvas.width = logicalWidth * scaleFactor;
+    canvas.height = logicalHeight * scaleFactor;
+
+    ctx.scale(scaleFactor, scaleFactor);
+    // Draw black background
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, logicalWidth, logicalHeight);
+
+    ctx.drawImage(image, padding, padding, image.width, image.height);
+
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = border;
+    ctx.strokeRect(padding - (border / 2), padding - (border / 2), image.width + border, image.height + border);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'white';
+    const centerX = logicalWidth / 2;
+    let currentY = image.height + padding + (padding * 0.6);
+    // Draw title text
+    if (topTextValue) {
+        ctx.font = `${titleSize}px "Times New Roman", Serif`;
+        ctx.fillText(topTextValue, centerX, currentY);
+        currentY += titleSize + (padding * 0.4);
+    }
+    // Draw subtitle text
+    if (bottomTextValue) {
+        ctx.font = `${subtitleSize}px "Times New Roman", Serif`;
+        ctx.fillText(bottomTextValue, centerX, currentY);
+    }
+}
+
+
+
+
+
+/*The Functions made for Impact Memes */
+// TOP TEXT:
 function drawTopText(text, fontSize) {
     const maxWidth = canvas.width * 0.9; // 90% of canvas width
     const lines = wrapText(ctx, text, maxWidth);
@@ -88,7 +160,7 @@ function drawTopText(text, fontSize) {
         y += fontSize * 1.1; // move to next line position
     });
 }
-// Function to draw meme text on the canvas
+// BOTTOM TEXT:
 function drawBottomText(text, fontSize) {
     const maxWidth = canvas.width * 0.9; // 90% of canvas width
     const lines = wrapText(ctx, text, maxWidth);
@@ -102,8 +174,8 @@ function drawBottomText(text, fontSize) {
     }
 
 }
-
-function drawMeme() {
+// IMPACT MEME DRAWING FUNCTION
+function drawImpactMeme() {
     if (hasImageBeenLoaded == true) {
         drawBaseImage();
         const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
@@ -125,7 +197,7 @@ function drawMeme() {
         drawBottomText(bottomTextValue, fontSize);
     }
 }
-
+// WORD WRAP HELPER
 function wrapText(ctx, text, maxWidth) { // helper function to wrap text
     const words = text.split(' '); // split text into words into an array
     let line = ''; // current line

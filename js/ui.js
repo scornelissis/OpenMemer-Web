@@ -113,29 +113,28 @@ const changelogList = document.getElementById('changelogList');
 
 // Mode Toggling
 const modeBtns = document.querySelectorAll('.mode-btn');
-let currentMode = 'standard';
 
 modeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Update UI
+        // 1. Visual Update: Switch the 'active' class
         modeBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        // Update State
-        currentMode = btn.getAttribute('data-mode');
-
-        // Update Placeholders
-        if (currentMode === 'demotivational') {
-            topText.placeholder = "title";
+        // 2. Get the mode from the HTML (data-mode="...")
+        const mode = btn.dataset.mode;
+        
+        // 3. Update Input Placeholders (UX improvement)
+        if (mode === 'demotivational') {
+            topText.placeholder = "TITLE";
             bottomText.placeholder = "subtitle";
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
         }
-        
-        // TODO: Trigger redraw with new mode
-        if (typeof drawMeme === 'function') {
-            drawMeme();
+
+        // 4. Tell Core to switch modes
+        if (typeof setMemeMode === 'function') {
+            setMemeMode(mode);
         }
     });
 });
