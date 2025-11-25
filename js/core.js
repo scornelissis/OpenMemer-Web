@@ -93,51 +93,86 @@ function setMemeMode(mode) {
 }
 
 function drawDemotivationalMeme() {
-    const padding = image.width * 0.1   
+    const padding = image.width * 0.1;
     const border = Math.max(2, image.width * 0.008);
-    const titleSize = image.width * 0.07;
-    const subtitleSize = image.width * 0.05;
+    const titleSize = image.width * 0.1; 
+    const subtitleSize = image.width * 0.06;
     const dpr = window.devicePixelRatio || 1;
     const displayWidth = canvasHolder.clientWidth;
 
     const topTextValue = topText.value.toUpperCase();
     const bottomTextValue = bottomText.value;
 
-    let textHeight = padding;
-    if (topTextValue) textHeight += titleSize + (padding * 0.5);
-    if (bottomTextValue) textHeight += subtitleSize + (padding * 0.5);
+    const maxTextWidth = (image.width + (padding * 2)) * 0.9; 
+    ctx.font = `${titleSize}px "Times New Roman", Serif`;
+    const titleLines = topTextValue ? wrapText(ctx, topTextValue, maxTextWidth) : [];
+
+    ctx.font = `${subtitleSize}px "Times New Roman", Serif`;
+    const subtitleLines = bottomTextValue ? wrapText(ctx, bottomTextValue, maxTextWidth) : [];
+
+    // calc height
+    let textContentHeight = 0;
+    
+    if (titleLines.length > 0) {
+        // Add height for each title line (1.2 is line height multiplier)
+        textContentHeight += (titleSize * 1.2) * titleLines.length;
+        textContentHeight += padding * 0.2; // Gap between title and subtitle
+    }
+    
+    if (subtitleLines.length > 0) {
+        textContentHeight += (subtitleSize * 1.2) * subtitleLines.length;
+    }
+
 
     const logicalWidth = image.width + (padding * 2);
-    const logicalHeight = image.height + textHeight + (padding); 
+    // add (padding * 3) to account for: top, gap (between image/text), and bottom
+    const logicalHeight = image.height + (padding * 3) + textContentHeight; 
+
+    // resize canvas
     const scaleFactor = (displayWidth * dpr) / logicalWidth;
     canvas.width = logicalWidth * scaleFactor;
     canvas.height = logicalHeight * scaleFactor;
 
+    // now draw
     ctx.scale(scaleFactor, scaleFactor);
-    // Draw black background
+    
+    // Background
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, logicalWidth, logicalHeight);
 
+    // Image
     ctx.drawImage(image, padding, padding, image.width, image.height);
 
+    // Border
     ctx.strokeStyle = 'white';
     ctx.lineWidth = border;
     ctx.strokeRect(padding - (border / 2), padding - (border / 2), image.width + border, image.height + border);
 
+    // Text
     ctx.textAlign = 'center';
     ctx.fillStyle = 'white';
     const centerX = logicalWidth / 2;
-    let currentY = image.height + padding + (padding * 0.6);
-    // Draw title text
-    if (topTextValue) {
+    
+    // start drawing text below the image + gap
+    let currentY = image.height + padding + (padding *1.5); 
+
+    // draw title lines
+    if (titleLines.length > 0) {
         ctx.font = `${titleSize}px "Times New Roman", Serif`;
-        ctx.fillText(topTextValue, centerX, currentY);
-        currentY += titleSize + (padding * 0.4);
+        titleLines.forEach(line => {
+            ctx.fillText(line, centerX, currentY);
+            currentY += titleSize * 1.2; // Move down for next line
+        });
+        currentY += padding * 0.1; // Add gap before subtitle
     }
-    // Draw subtitle text
-    if (bottomTextValue) {
+
+    // draw sub lines
+    if (subtitleLines.length > 0) {
         ctx.font = `${subtitleSize}px "Times New Roman", Serif`;
-        ctx.fillText(bottomTextValue, centerX, currentY);
+        subtitleLines.forEach(line => {
+            ctx.fillText(line, centerX, currentY);
+            currentY += subtitleSize * 1.3;
+        });
     }
 }
 
