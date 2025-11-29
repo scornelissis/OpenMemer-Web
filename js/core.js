@@ -189,14 +189,17 @@ function setMemeMode(mode) {
 }
 
 function drawDemotivationalMeme() {
-    const padding = image.width * 0.1;
-    const border = Math.max(2, image.width * 0.008);
+    const source = isGIF ? gifCanvas : image;
+    if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
+
+    const padding = source.width * 0.1;
+    const border = Math.max(2, source.width * 0.008);
     
     const titleVal = parseFloat(document.getElementById('fontSize').value) / 100;
     const subtitleVal = parseFloat(document.getElementById('subtitleSize').value) / 100;
 
-    const titleSize = image.width * titleVal; 
-    const subtitleSize = image.width * subtitleVal;
+    const titleSize = source.width * titleVal; 
+    const subtitleSize = source.width * subtitleVal;
 
     const dpr = window.devicePixelRatio || 1;
     const displayWidth = canvasHolder.clientWidth;
@@ -204,7 +207,7 @@ function drawDemotivationalMeme() {
     const topTextValue = topText.value.toUpperCase();
     const bottomTextValue = bottomText.value;
 
-    const maxTextWidth = (image.width + (padding * 2)) * 0.9; 
+    const maxTextWidth = (source.width + (padding * 2)) * 0.9; 
     ctx.font = `${titleSize}px "Times New Roman", Serif`;
     const titleLines = topTextValue ? wrapText(ctx, topTextValue, maxTextWidth) : [];
 
@@ -225,9 +228,9 @@ function drawDemotivationalMeme() {
     }
 
 
-    const logicalWidth = image.width + (padding * 2);
+    const logicalWidth = source.width + (padding * 2);
     // add (padding * 3) to account for: top, gap (between image/text), and bottom
-    const logicalHeight = image.height + (padding * 3) + textContentHeight; 
+    const logicalHeight = source.height + (padding * 3) + textContentHeight; 
 
     // resize canvas
     const scaleFactor = (displayWidth * dpr) / logicalWidth;
@@ -242,12 +245,12 @@ function drawDemotivationalMeme() {
     ctx.fillRect(0, 0, logicalWidth, logicalHeight);
 
     // Image
-    ctx.drawImage(image, padding, padding, image.width, image.height);
+    ctx.drawImage(source, padding, padding, source.width, source.height);
 
     // Border
     ctx.strokeStyle = 'white';
     ctx.lineWidth = border;
-    ctx.strokeRect(padding - (border / 2), padding - (border / 2), image.width + border, image.height + border);
+    ctx.strokeRect(padding - (border / 2), padding - (border / 2), source.width + border, source.height + border);
 
     // Text
     ctx.textAlign = 'center';
@@ -255,7 +258,7 @@ function drawDemotivationalMeme() {
     const centerX = logicalWidth / 2;
     
     // start drawing text below the image + gap
-    let currentY = image.height + padding + (padding *1.5); 
+    let currentY = source.height + padding + (padding *1.5); 
 
     // draw title lines
     if (titleLines.length > 0) {
