@@ -45,6 +45,10 @@ function handleGif(file) {
         if (gifFrames.length > 0) {
             isGIF = true; // set GIF flag
             hasImageBeenLoaded = true; // set image loaded flag
+            
+            // Update Export Button Text
+            const exportBtn = document.getElementById('exportBtn');
+            if (exportBtn) exportBtn.textContent = "export GIF";
 
             // Set up GIF canvas size
             gifCanvas.width = gifFrames[0].dims.width;
@@ -77,6 +81,10 @@ function handleStaticImage(file) {
         console.log("Image loaded!");
         hasImageBeenLoaded = true; // set flag to true
         
+        // Reset Export Button Text
+        const exportBtn = document.getElementById('exportBtn');
+        if (exportBtn) exportBtn.textContent = "export";
+
         if (uploadHint) {
             uploadHint.classList.add('hidden');
         }
@@ -90,7 +98,15 @@ function animateGif(time) {
 
     const frame = gifFrames[currentGifFrameIndex]; // get the current frame
 
-    const delay = frame.delay || 100; // get frame delay, default to 100ms
+    let delay = frame.delay || 100; // get frame delay, default to 100ms
+
+    // Apply Speed Multiplier
+    const speedInput = document.getElementById('gifSpeed');
+    if (speedInput) {
+        const speedVal = parseFloat(speedInput.value) || 100;
+        // 200% speed means half the delay. 50% speed means double the delay.
+        delay = delay * (100 / speedVal);
+    }
 
     if (time - lastFrameTime >= delay) {
         // Draw the current frame to the GIF canvas
