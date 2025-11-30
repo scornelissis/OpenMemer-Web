@@ -124,7 +124,7 @@ async function exportGIF(btn, discordMode = false) {
         const url = URL.createObjectURL(blob);
         const createEl = document.createElement('a');
         createEl.href = url;
-        createEl.download = discordMode ? 'OpenMemer-Discord.gif' : 'OpenMemer-Caption.gif';
+        createEl.download = discordMode ? 'OpenMemer-Compact.gif' : 'OpenMemer-Caption.gif';
         createEl.click();
         createEl.remove();
         
