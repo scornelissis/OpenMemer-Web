@@ -83,6 +83,12 @@ body.adv-open {
     overflow: hidden;
     margin-top: 0%;
     cursor: pointer;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+#canvasHolder.drag-hover {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+    border-color: rgba(0, 255, 0, 0.9);
 }
 
 /* canvas element styles */

@@ -19,8 +19,9 @@ This is stuff I have to do in order to get the minimum viable product done.
 - [X] Mobile layout that isn't horrible
 - [X] Demotivational poster mode
 - [X] GIF / animated caption support
+- [X] Drag 'n drop mode
 - [ ] Drag-to-position text
-- [ ] Drag 'n drop mode
+
 
 ## Stretch Goals
 I want OpenMemer to become the ultimate shitposting suite.

@@ -32,6 +32,129 @@ function handleImage() {
         handleStaticImage(file);
     }
 }
+
+// Clipboard Paste Support
+window.addEventListener('paste', async (event) => {
+    // Prefer clipboard items on the paste event (widely supported)
+    const items = event.clipboardData && event.clipboardData.items ? event.clipboardData.items : [];
+
+    // Try to find an image item (PNG/JPEG/GIF)
+    let imageItem = null;
+    for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        if (it.kind === 'file') {
+            const type = it.type.toLowerCase();
+            if (type.startsWith('image/')) {
+                imageItem = it;
+                break;
+            }
+        }
+    }
+
+    if (imageItem) {
+        const blob = imageItem.getAsFile();
+        if (!blob) return;
+
+        // Stop any ongoing GIF animation when replacing content
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+
+        // Route based on MIME type
+        if (blob.type === 'image/gif') {
+            handleGif(blob);
+        } else {
+            handleStaticImage(blob);
+        }
+
+        // Hide upload hint on successful paste
+        if (uploadHint) uploadHint.classList.add('hidden');
+        return;
+    }
+
+    // Fallback path: try Navigator Clipboard API (requires permissions and HTTPS)
+    if (navigator.clipboard && navigator.clipboard.read) {
+        try {
+            const clipboardItems = await navigator.clipboard.read();
+            for (const ci of clipboardItems) {
+                // Find first image type available
+                const types = ci.types || [];
+                const imgType = types.find(t => t.startsWith('image/'));
+                if (imgType) {
+                    const blob = await ci.getType(imgType);
+                    if (blob) {
+                        if (animationId) {
+                            cancelAnimationFrame(animationId);
+                            animationId = null;
+                        }
+                        if (blob.type === 'image/gif') {
+                            handleGif(blob);
+                        } else {
+                            handleStaticImage(blob);
+                        }
+                        if (uploadHint) uploadHint.classList.add('hidden');
+                        break;
+                    }
+                }
+            }
+        } catch (err) {
+            // Silently ignore permission or platform errors
+            console.warn('Clipboard read failed:', err);
+        }
+    }
+});
+
+// Drag & Drop Support
+const dropTarget = document.getElementById('canvasHolder');
+if (dropTarget) {
+    // Prevent default to allow drop
+    ['dragenter', 'dragover'].forEach(evt => {
+        dropTarget.addEventListener(evt, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropTarget.classList.add('drag-hover');
+        });
+    });
+
+    ['dragleave', 'dragend'].forEach(evt => {
+        dropTarget.addEventListener(evt, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropTarget.classList.remove('drag-hover');
+        });
+    });
+
+    dropTarget.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropTarget.classList.remove('drag-hover');
+
+        const dt = e.dataTransfer;
+        if (!dt) return;
+
+        const files = dt.files;
+        if (!files || files.length === 0) return;
+
+        const file = files[0];
+        if (!file || !file.type || !file.type.startsWith('image/')) return;
+
+        // Stop any ongoing GIF animation when replacing content
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+
+        // Route based on MIME type
+        if (file.type === 'image/gif') {
+            handleGif(file);
+        } else {
+            handleStaticImage(file);
+        }
+
+        if (uploadHint) uploadHint.classList.add('hidden');
+    });
+}
 // GIF DECODER
 function handleGif(file) {
     const reader = new FileReader(); // create a FileReader to read the file

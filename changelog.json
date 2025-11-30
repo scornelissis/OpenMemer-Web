@@ -1,5 +1,12 @@
     [
         {
+            "version": "v1.3.3",
+            "changes": [
+                "Quality of Life: Paste from clipboard now supported",
+                "Quality of Life: Drag and Drop image upload supported"
+            ]
+        },
+        {
             "version": "v1.3.2",
             "changes": [
                 "Added 'Compact Mode' for GIF exports to compress files under 10MB."
