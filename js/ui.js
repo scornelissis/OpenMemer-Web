@@ -243,3 +243,35 @@ if (versionBtn && modal) {
         }
     });
 }
+
+// Error Modal Handling
+const errorModal = document.getElementById('errorModal');
+const closeErrorModal = document.getElementById('closeErrorModal');
+const errorTitle = document.getElementById('errorTitle');
+const errorMessage = document.getElementById('errorMessage');
+const errorOkBtn = document.getElementById('errorOkBtn');
+
+function showError(title, message) {
+    if (errorTitle) errorTitle.textContent = title;
+    if (errorMessage) errorMessage.innerHTML = message.replace(/\n/g, '<br>');
+    if (errorModal) errorModal.classList.add('show');
+}
+
+if (closeErrorModal) {
+    closeErrorModal.addEventListener('click', () => {
+        errorModal.classList.remove('show');
+    });
+}
+
+if (errorOkBtn) {
+    errorOkBtn.addEventListener('click', () => {
+        errorModal.classList.remove('show');
+    });
+}
+
+// Close on click outside
+window.addEventListener('click', (e) => {
+    if (e.target === errorModal) {
+        errorModal.classList.remove('show');
+    }
+});

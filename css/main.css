@@ -708,3 +708,43 @@ button:active {
         background: black;
     }
 }
+
+/* Error Modal Styles */
+.error-content {
+    max-width: 500px;
+    text-align: center;
+    background: #000;
+    border: 1px solid #333;
+    min-height: auto;
+    padding-bottom: 40px;
+}
+
+.error-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+#errorOkBtn {
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 12px 40px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    min-width: 150px;
+    margin-top: 10px;
+}
+
+#errorOkBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
