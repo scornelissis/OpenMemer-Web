@@ -30,6 +30,41 @@ body.adv-open {
     font-family: 'Libre Franklin', sans-serif;
 }
 
+/* GitHub button (top-left) */
+#githubBtn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    background: transparent;
+    color: #fff; /* makes inline SVG fill via currentColor */
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#githubBtn svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+#githubBtn:hover {
+    background: rgba(255,255,255,0.04);
+}
+
+#githubBtn:focus {
+    outline: 2px solid rgba(255,255,255,0.12);
+    outline-offset: 2px;
+}
+
 /* Mode Selector */
 .mode-selector {
     display: flex;
