@@ -1,5 +1,13 @@
     [
         {
+            "version": "v1.3.4",
+            "changes": [
+                "Added AGPL license to the repository.",
+                "Added Github button linking to the repository.",
+                "Added error messages for export failures."
+            ]
+        },
+        {
             "version": "v1.3.3",
             "changes": [
                 "Quality of Life: Paste from clipboard now supported",
