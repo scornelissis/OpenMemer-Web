@@ -152,10 +152,10 @@ modeBtns.forEach(btn => {
         
         } else if (mode=='freeform'){
             const $controls = document.querySelector('.controls');
-            const $freeFormTemplate = document.querySelector('#freeformTemplate').content.cloneNode(true);
-            $freeFormTemplate.querySelector('input').innerHTML = "";
-            $controls.insertAdjacentHTML('afterbegin', $freeFormTemplate.outerHTML);
-            $freeFormTemplate.querySelector("#reeform-make-text-button").addEventListener('click', createFreeFormText());
+            const $freeFormTemplate = document.querySelector('#freeform-template').content.cloneNode(true);
+            console.log($freeFormTemplate.outerHTML);
+            $controls.prepend($freeFormTemplate);
+            document.querySelector("#freeform-make-text-button").addEventListener('click', createFreeFormText);
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
@@ -174,8 +174,12 @@ modeBtns.forEach(btn => {
     });
 });
 
-function createFreeFormText() {
+function createFreeFormText(e) {
     
+    const $controls = document.querySelector('.controls');
+    const textValue = document.querySelector('#freeform-text').value;
+    document.querySelector('#freeform-text').value = '';
+    if (textValue.trim() === "") return;
 }
 
 async function loadChangelogs() {
