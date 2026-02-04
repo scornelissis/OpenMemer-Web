@@ -131,7 +131,14 @@ modeBtns.forEach(btn => {
         const subtitleGroup = document.getElementById('subtitleGroup');
         const gifSpeedGroup = document.getElementById('gifSpeedGroup');
 
-        // 3. Update Input Placeholders (UX improvement)
+
+        // 3. Clear Freeform elements if switching away
+        const $freeform = document.querySelector('#freeform-base');
+        if ($freeform) $freeform.remove();
+        const $addedTexts = document.querySelectorAll('.draggable-text-box');
+        $addedTexts.forEach(item => item.remove());
+
+        // 4. Update Input Placeholders (UX improvement)
         if (mode === 'demotivational') {
             topText.placeholder = "title";
             bottomText.placeholder = "subtitle";
@@ -151,6 +158,12 @@ modeBtns.forEach(btn => {
             if(gifSpeedGroup) gifSpeedGroup.classList.remove('hidden');
         
         } else if (mode=='freeform'){
+
+            droppedItems.length = 0; // Clear dropped items
+            topText.style.display = 'none'; // Hide top text
+            bottomText.style.display = 'none'; // Hide bottom text
+
+
             const $controls = document.querySelector('.controls');
             const $freeFormTemplate = document.querySelector('#freeform-template').content.cloneNode(true);
             console.log($freeFormTemplate.outerHTML);
@@ -167,7 +180,7 @@ modeBtns.forEach(btn => {
             if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         }
 
-        // 4. Tell Core to switch modes
+        // 5. Tell Core to switch modes
         if (typeof setMemeMode === 'function') {
             setMemeMode(mode);
         }
