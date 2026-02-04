@@ -198,30 +198,22 @@ function createFreeFormText(e) {
     });
 
     canvas.addEventListener("dragover", e => {
-    e.preventDefault();
+        e.preventDefault();
     });
 
     canvas.addEventListener("drop", e => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const rect = canvas.getBoundingClientRect();
+        const rect = canvas.getBoundingClientRect();
 
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
 
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
+        const x = e.clientX - rect.left;
+        
+        const y = e.clientY - rect.top;
 
-    droppedItems.push({ x, y, text: e.dataTransfer.getData("text") });
-
-    droppedItems.forEach(item => {
-        drawMeme(); // Redraw base meme
-        ctx.font = "1.25rem sans-serif";
-        ctx.fillStyle = "#000";
-        ctx.fillText(item.text, item.x + 125, item.y + 100);
+        droppedItems.push({ x, y, text: e.dataTransfer.getData("text") });
+        drawFreeFormMeme(false, null, droppedItems);
     });
-    });
-
 }
 
 async function loadChangelogs() {

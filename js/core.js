@@ -330,7 +330,9 @@ function drawMeme(exportMode = false, targetWidth = null) {
         drawDemotivationalMeme(exportMode, targetWidth);
     } else if (currentMemeMode === 'gif-mode') {
         drawGifCaptionMeme(exportMode, targetWidth);
-    } 
+    } else if (currentMemeMode === 'freeform') {
+        drawFreeFormMeme(exportMode, targetWidth);
+    }
     else {
         drawImpactMeme(exportMode, targetWidth);
     }
@@ -441,10 +443,20 @@ function drawDemotivationalMeme(exportMode = false, targetWidth = null) {
     }
 }
 
-function drawFreeFormMeme(exportMode = false, targetWidth = null) {
+function drawFreeFormMeme(exportMode = false, targetWidth = null, items = null) {
+    console.log("Drawing Freeform Meme");
     const source = isGIF ? gifCanvas : image;
     if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
+    const dpr = exportMode ? 1 : (window.devicePixelRatio || 1);
+    drawBaseImage(exportMode, targetWidth);
+    ctx.font = "1.25rem sans-serif";
+    ctx.fillStyle = "#FFFFFF";
+    if (items) {
+        items.forEach(item => {
+        ctx.fillText(item.text, item.x + 125, item.y + 100);
+    });
 
+    }
 }
 
 function drawGifCaptionMeme(exportMode = false, targetWidth = null) {
