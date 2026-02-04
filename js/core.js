@@ -331,7 +331,7 @@ function drawMeme(exportMode = false, targetWidth = null) {
     } else if (currentMemeMode === 'gif-mode') {
         drawGifCaptionMeme(exportMode, targetWidth);
     } else if (currentMemeMode === 'freeform') {
-        drawFreeFormMeme(exportMode, targetWidth);
+        drawFreeFormMeme(exportMode, targetWidth, droppedItems);
     }
     else {
         drawImpactMeme(exportMode, targetWidth);
