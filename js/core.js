@@ -448,13 +448,24 @@ function drawFreeFormMeme(exportMode = false, targetWidth = null, items = null) 
 
     const source = isGIF ? gifCanvas : image;
     if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
-    const dpr = exportMode ? 1 : (window.devicePixelRatio || 1);
+
+    const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
+    const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
+    const fontSize = canvas.width * fontSizeValue;
+
     drawBaseImage(exportMode, targetWidth);
-    ctx.font = "1.25rem sans-serif";
-    ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = fontSize * strokeWidthValue;
+    ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
+
     if (items) {
         items.forEach(item => {
-        ctx.fillText(item.text, item.x + 125, item.y + 100);
+
+        const x = item.x;
+        const y = item.y;
+        ctx.strokeText(item.text, x, y); 
+        ctx.fillText(item.text, x, y);   
     });
 
     }

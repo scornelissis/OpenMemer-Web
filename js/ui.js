@@ -229,11 +229,11 @@ function createFreeFormText(e) {
         e.preventDefault();
 
         const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
 
+        const x = (e.clientX - rect.left) * dpr;
+        const y = (e.clientY - rect.top) * dpr;
 
-        const x = e.clientX - rect.left;
-        
-        const y = e.clientY - rect.top;
 
         droppedItems.push({ x, y, text: e.dataTransfer.getData("text") });
         drawFreeFormMeme(false, null, droppedItems);
