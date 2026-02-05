@@ -451,22 +451,32 @@ function drawFreeFormMeme(exportMode = false, targetWidth = null, items = null) 
 
     const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
     const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
-    const fontSize = canvas.width * fontSizeValue;
+    const fontSize = source.width * fontSizeValue;
 
     drawBaseImage(exportMode, targetWidth);
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = fontSize * strokeWidthValue;
-    ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
     if (items) {
+        const scale = canvas.width / source.width;
+        ctx.save();
+        ctx.scale(scale, scale);
+
+        ctx.lineWidth = fontSize * strokeWidthValue;
+        ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
+
+
         items.forEach(item => {
 
-        const x = item.x;
-        const y = item.y;
+        const x = item.x * source.width; // convert relative x to absolute
+        const y = item.y * source.height; // convert relative y to absolute
         ctx.strokeText(item.text, x, y); 
         ctx.fillText(item.text, x, y);   
     });
+
+    ctx.restore();
 
     }
 }

@@ -235,7 +235,7 @@ function createFreeFormText(e) {
         const y = (e.clientY - rect.top) * dpr;
 
 
-        droppedItems.push({ x, y, text: e.dataTransfer.getData("text") });
+        droppedItems.push({ x: x / canvas.width, y: y / canvas.height, text: e.dataTransfer.getData("text") });
         drawFreeFormMeme(false, null, droppedItems);
     });
 }
